@@ -125,7 +125,7 @@ void accept_request(int client)
  }
 
  //将前面分隔两份的前面那份字符串，拼接在字符串htdocs的后面之后就输出存储到数组 path 中。相当于现在 path 中存储着一个字符串
- sprintf(path, "htdocs%s", url);
+ sprintf(path, "htdocs%s", url); // 复制直到结束字符'\0'
  
  //如果 path 数组中的这个字符串的最后一个字符是以字符 / 结尾的话，就拼接上一个"index.html"的字符串。首页的意思
  if (path[strlen(path) - 1] == '/')
@@ -586,6 +586,8 @@ int main(void)
  while (1)
  {
   //阻塞等待客户端的连接，参读《TLPI》P1157
+  // server_sock 是监听套接字，通常只有一个；
+  // 而 client_sock 是已连接套接字，对应于每个连接，都会有一个对应的已连接套接字，连接结束时该套接字会被关闭。
   client_sock = accept(server_sock,
                        (struct sockaddr *)&client_name,
                        &client_name_len);
